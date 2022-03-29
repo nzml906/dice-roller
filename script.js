@@ -6,6 +6,10 @@ const current0El = document.getElementById('current--0');
 const current1El = document.getElementById('current--1');
 const diceEl = document.querySelector('.dice');
 const btnRoll = document.querySelector('.btn--roll');
+const player0El = document.querySelector('.player--0');
+const player1El = document.querySelector('.player--1');
+
+let currentScore, activePlayer;
 
 // 1. App starting condition
 const init = function () {
@@ -17,6 +21,14 @@ const init = function () {
 
   // Hide the dice
   diceEl.classList.add('hidden');
+
+  // dynamic currentScore variable
+  currentScore = 0;
+
+  // Set player 1 as active player
+  activePlayer = 0;
+  player0El.classList.add('player--active');
+  player1El.classList.remove('player--active');
 };
 init();
 
@@ -26,4 +38,8 @@ btnRoll.addEventListener('click', function () {
   const dice = Math.trunc(Math.random() * 6) + 1;
   diceEl.classList.remove('hidden');
   diceEl.src = `dice-${dice}.png`;
+
+  currentScore += dice;
+  document.getElementById(`current--${activePlayer}`).textContent =
+    currentScore;
 });

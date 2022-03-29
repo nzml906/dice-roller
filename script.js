@@ -32,6 +32,19 @@ const init = function () {
 };
 init();
 
+const switchPlayer = function () {
+  // active player current scores 0
+  document.getElementById(`current--${activePlayer}`).textContent = 0;
+
+  // dynamic currentScore variable
+  currentScore = 0;
+
+  // toggle active player
+  activePlayer = activePlayer === 0 ? 1 : 0;
+  player0El.classList.toggle('player--active');
+  player1El.classList.toggle('player--active');
+};
+
 // 2. Rolling dice
 btnRoll.addEventListener('click', function () {
   // Generate a random dice roll & display
@@ -39,7 +52,12 @@ btnRoll.addEventListener('click', function () {
   diceEl.classList.remove('hidden');
   diceEl.src = `dice-${dice}.png`;
 
-  currentScore += dice;
-  document.getElementById(`current--${activePlayer}`).textContent =
-    currentScore;
+  // Add dice rolls points to currentScore variable and show it to the active player's current scores (exception 1, toggle player)
+  if (dice !== 1) {
+    currentScore += dice;
+    document.getElementById(`current--${activePlayer}`).textContent =
+      currentScore;
+  } else {
+    switchPlayer();
+  }
 });

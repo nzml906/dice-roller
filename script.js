@@ -12,7 +12,8 @@ const player1El = document.querySelector('.player--1');
 
 let currentScore,
   activePlayer,
-  scores = [0, 0];
+  scores = [0, 0],
+  playing;
 
 // 1. App starting condition
 const init = function () {
@@ -32,6 +33,9 @@ const init = function () {
   activePlayer = 0;
   player0El.classList.add('player--active');
   player1El.classList.remove('player--active');
+
+  // Gamemode on
+  playing = true;
 };
 init();
 
@@ -50,33 +54,40 @@ const switchPlayer = function () {
 
 // 2. Rolling dice
 btnRoll.addEventListener('click', function () {
-  // Generate a random dice roll & display
-  const dice = Math.trunc(Math.random() * 6) + 1;
-  diceEl.classList.remove('hidden');
-  diceEl.src = `dice-${dice}.png`;
+  if (playing) {
+    // Generate a random dice roll & display
+    const dice = Math.trunc(Math.random() * 6) + 1;
+    diceEl.classList.remove('hidden');
+    diceEl.src = `dice-${dice}.png`;
 
-  // Add dice rolls points to currentScore variable and show it to the active player's current scores (exception 1, toggle player)
-  if (dice !== 1) {
-    currentScore += dice;
-    document.getElementById(`current--${activePlayer}`).textContent =
-      currentScore;
-  } else {
-    switchPlayer();
+    // Add dice rolls points to currentScore variable and show it to the active player's current scores (exception 1, toggle player)
+    if (dice !== 1) {
+      currentScore += dice;
+      document.getElementById(`current--${activePlayer}`).textContent =
+        currentScore;
+    } else {
+      switchPlayer();
+    }
   }
 });
 
 btnHold.addEventListener('click', function () {
-  scores[activePlayer] += currentScore;
-  document.getElementById(`score--${activePlayer}`).textContent =
-    scores[activePlayer];
+  if (playing) {
+    scores[activePlayer] += currentScore;
+    document.getElementById(`score--${activePlayer}`).textContent =
+      scores[activePlayer];
 
-  if (scores[activePlayer] >= 100) {
-    // Set a different background color to winner
-    document
-      .querySelector(`.player--${activePlayer}`)
-      .classList.add('player--winner');
-  } else switchPlayer();
+    if (scores[activePlayer] >= 100) {
+      // Gamemode off
+      playing = false;
 
-  // Hide the dice
-  diceEl.classList.add('hidden');
+      // Set a different background color to winner
+      document
+        .querySelector(`.player--${activePlayer}`)
+        .classList.add('player--winner');
+    } else switchPlayer();
+
+    // Hide the dice
+    diceEl.classList.add('hidden');
+  }
 });

@@ -6,10 +6,13 @@ const current0El = document.getElementById('current--0');
 const current1El = document.getElementById('current--1');
 const diceEl = document.querySelector('.dice');
 const btnRoll = document.querySelector('.btn--roll');
+const btnHold = document.querySelector('.btn--hold');
 const player0El = document.querySelector('.player--0');
 const player1El = document.querySelector('.player--1');
 
-let currentScore, activePlayer;
+let currentScore,
+  activePlayer,
+  scores = [0, 0];
 
 // 1. App starting condition
 const init = function () {
@@ -60,4 +63,11 @@ btnRoll.addEventListener('click', function () {
   } else {
     switchPlayer();
   }
+});
+
+btnHold.addEventListener('click', function () {
+  scores[activePlayer] += currentScore;
+  document.getElementById(`score--${activePlayer}`).textContent =
+    scores[activePlayer];
+  switchPlayer();
 });

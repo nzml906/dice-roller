@@ -7,13 +7,11 @@ const current1El = document.getElementById('current--1');
 const diceEl = document.querySelector('.dice');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
+const btnNew = document.querySelector('.btn--new');
 const player0El = document.querySelector('.player--0');
 const player1El = document.querySelector('.player--1');
 
-let currentScore,
-  activePlayer,
-  scores = [0, 0],
-  playing;
+let currentScore, activePlayer, scores, playing;
 
 // 1. App starting condition
 const init = function () {
@@ -36,6 +34,13 @@ const init = function () {
 
   // Gamemode on
   playing = true;
+
+  // Init total
+  scores = [0, 0];
+
+  // Remove winning background color for both players
+  player0El.classList.remove('player--winner');
+  player1El.classList.remove('player--winner');
 };
 init();
 
@@ -91,3 +96,5 @@ btnHold.addEventListener('click', function () {
     diceEl.classList.add('hidden');
   }
 });
+
+btnNew.addEventListener('click', init);

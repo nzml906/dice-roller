@@ -69,5 +69,14 @@ btnHold.addEventListener('click', function () {
   scores[activePlayer] += currentScore;
   document.getElementById(`score--${activePlayer}`).textContent =
     scores[activePlayer];
-  switchPlayer();
+
+  if (scores[activePlayer] >= 100) {
+    // Set a different background color to winner
+    document
+      .querySelector(`.player--${activePlayer}`)
+      .classList.add('player--winner');
+  } else switchPlayer();
+
+  // Hide the dice
+  diceEl.classList.add('hidden');
 });
